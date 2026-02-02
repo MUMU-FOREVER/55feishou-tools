@@ -21,15 +21,15 @@ export default defineConfig({
                     'User-Agent': 'DistanceCalculator/1.0'
                 }
             },
-            // 开发环境代理 - 海拔查询
+            // 开发环境代理 - 海拔查询 (Open-Elevation，无限制)
             '/api/elevation': {
-                target: 'https://api.open-meteo.com',
+                target: 'https://api.open-elevation.com',
                 changeOrigin: true,
                 rewrite: (path) => {
                     const url = new URL(path, 'http://localhost');
                     const lat = url.searchParams.get('lat') || '';
                     const lng = url.searchParams.get('lng') || '';
-                    return `/v1/elevation?latitude=${lat}&longitude=${lng}`;
+                    return `/api/v1/lookup?locations=${lat},${lng}`;
                 }
             },
             // 开发环境代理 - OpenStreetMap 瓦片

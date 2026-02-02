@@ -27,7 +27,7 @@ export async function searchLocation(keyword, limit = 5) {
 }
 
 /**
- * 获取海拔高度 - 通过代理转发到 Open-Meteo Elevation API
+ * 获取海拔高度 - 通过代理转发到 Open-Elevation API（无限制）
  * @param {number} lat - 纬度
  * @param {number} lng - 经度
  * @returns {Promise<number>} 海拔高度（米）
@@ -42,10 +42,18 @@ export async function getElevation(lat, lng) {
             throw new Error(data.error);
         }
 
-        return data.elevation[0] || 0;
+        // Open-Elevation 返回格式: { results: [{ elevation: number }] }
+        if (data.results && data.results[0]) {
+            return data.results[0].elevation || 0;
+        }
+        // 兼容 Open-Meteo 格式
+        if (data.elevation) {
+            return data.elevation[0] || 0;
+        }
+
+        return 0;
     } catch (error) {
         console.error('获取海拔失败:', error);
         throw error;
     }
 }
-
