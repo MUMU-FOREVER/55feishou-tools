@@ -27,28 +27,20 @@ export async function searchLocation(keyword, limit = 5) {
 }
 
 /**
- * 获取海拔高度 - 通过代理转发到 Open-Elevation API（无限制）
+ * 获取海拔高度 - 直接调用 Open-Elevation API（无限制，支持 CORS）
  * @param {number} lat - 纬度
  * @param {number} lng - 经度
  * @returns {Promise<number>} 海拔高度（米）
  */
 export async function getElevation(lat, lng) {
     try {
-        const url = `/api/elevation?lat=${lat}&lng=${lng}`;
+        const url = `https://api.open-elevation.com/api/v1/lookup?locations=${lat},${lng}`;
         const response = await fetch(url);
         const data = await response.json();
-
-        if (data.error) {
-            throw new Error(data.error);
-        }
 
         // Open-Elevation 返回格式: { results: [{ elevation: number }] }
         if (data.results && data.results[0]) {
             return data.results[0].elevation || 0;
-        }
-        // 兼容 Open-Meteo 格式
-        if (data.elevation) {
-            return data.elevation[0] || 0;
         }
 
         return 0;
