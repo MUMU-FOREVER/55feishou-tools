@@ -132,6 +132,7 @@
 <script>
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { searchLocation, getElevation } from '@/api/api.js';
 
 export default {
 	data() {
@@ -340,13 +341,7 @@ export default {
 			this.loadingText = '搜索中...';
 			
 			try {
-				const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(this.searchKeyword)}&limit=5&accept-language=zh`;
-				const response = await fetch(url, {
-					headers: {
-						'User-Agent': 'DistanceCalculator/1.0'
-					}
-				});
-				const data = await response.json();
+				const data = await searchLocation(this.searchKeyword);
 				this.searchResults = data;
 				
 				if (data.length === 0) {
@@ -466,8 +461,8 @@ export default {
 			
 			try {
 				const [startElevation, endElevation] = await Promise.all([
-					this.getElevation(startLatLng.lat, startLatLng.lng),
-					this.getElevation(endLatLng.lat, endLatLng.lng)
+					getElevation(startLatLng.lat, startLatLng.lng),
+					getElevation(endLatLng.lat, endLatLng.lng)
 				]);
 				
 				this.measureResult.startElevation = startElevation;
@@ -517,18 +512,7 @@ export default {
 			return deg * (Math.PI / 180);
 		},
 		
-		// 获取海拔高度
-		async getElevation(lat, lng) {
-			try {
-				const url = `https://api.open-meteo.com/v1/elevation?latitude=${lat}&longitude=${lng}`;
-				const response = await fetch(url);
-				const data = await response.json();
-				return data.elevation[0] || 0;
-			} catch (error) {
-				console.error('获取海拔失败:', error);
-				return 0;
-			}
-		},
+
 		
 		// 清除测量
 		clearMeasurement() {
