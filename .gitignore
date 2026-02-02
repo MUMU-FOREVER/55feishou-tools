@@ -1,0 +1,20 @@
+######################################################################
+# Build Tools
+
+/unpackage/*
+/node_modules/*
+.DS_Store
+/pages/.DS_Store
+/api/swagger.json
+/doc/*
+
+######################################################################
+# Development Tools
+
+/.idea/*
+/.vscode/*
+/.hbuilderx/*
+
+package-lock.json
+yarn.lock
+

@@ -1,0 +1,21 @@
+{
+  "name": "55feishou-tools",
+  "version": "1.0.0",
+  "scripts": {
+    "dev:h5": "uni",
+    "build:h5": "uni build"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4"
+  },
+  "devDependencies": {
+    "@dcloudio/uni-app": "3.0.0-alpha-5000020260104004",
+    "@dcloudio/uni-app-plus": "3.0.0-alpha-5000020260104004",
+    "@dcloudio/uni-components": "3.0.0-alpha-5000020260104004",
+    "@dcloudio/uni-h5": "3.0.0-alpha-5000020260104004",
+    "@dcloudio/uni-mp-weixin": "3.0.0-alpha-5000020260104004",
+    "@dcloudio/vite-plugin-uni": "3.0.0-alpha-5000020260104004",
+    "vite": "^5.4.14",
+    "vue": "^3.5.13"
+  }
+}

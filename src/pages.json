@@ -1,0 +1,18 @@
+{
+	"pages": [
+		{
+			"path": "pages/distance-calculator/distance-calculator",
+			"style": {
+				"navigationBarTitleText": "距离落差计算",
+				"navigationStyle": "custom"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "距离落差计算",
+		"navigationBarBackgroundColor": "#1a1a2e",
+		"backgroundColor": "#1a1a2e"
+	},
+	"uniIdRouter": {}
+}
