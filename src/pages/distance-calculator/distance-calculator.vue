@@ -194,9 +194,9 @@ export default {
 				zoomControl: false
 			});
 			
-			// 定义图层
+			// 定义图层 - 通过代理访问
 			this.layers = {
-				normal: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				normal: L.tileLayer('/tiles/osm/{z}/{x}/{y}', {
 					attribution: '© OpenStreetMap contributors',
 					maxZoom: 19
 				}),
@@ -204,7 +204,7 @@ export default {
 					attribution: '© Esri',
 					maxZoom: 18
 				}),
-				terrain: L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+				terrain: L.tileLayer('/tiles/topo/{z}/{x}/{y}', {
 					attribution: '© OpenTopoMap contributors',
 					maxZoom: 17
 				})

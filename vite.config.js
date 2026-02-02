@@ -31,6 +31,38 @@ export default defineConfig({
                     const lng = url.searchParams.get('lng') || '';
                     return `/v1/elevation?latitude=${lat}&longitude=${lng}`;
                 }
+            },
+            // 开发环境代理 - OpenStreetMap 瓦片
+            '/tiles/osm': {
+                target: 'https://tile.openstreetmap.org',
+                changeOrigin: true,
+                rewrite: (path) => path.replace('/tiles/osm', '') + '.png',
+                headers: {
+                    'User-Agent': 'DistanceCalculator/1.0'
+                }
+            },
+            // 开发环境代理 - Esri 卫星图瓦片
+            '/tiles/esri': {
+                target: 'https://server.arcgisonline.com',
+                changeOrigin: true,
+                rewrite: (path) => {
+                    // /tiles/esri/z/x/y -> /ArcGIS/rest/services/World_Imagery/MapServer/tile/z/y/x
+                    const match = path.match(/\/tiles\/esri\/(\d+)\/(\d+)\/(\d+)/);
+                    if (match) {
+                        const [, z, x, y] = match;
+                        return `/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${x}`;
+                    }
+                    return path;
+                }
+            },
+            // 开发环境代理 - OpenTopoMap 地形图瓦片
+            '/tiles/topo': {
+                target: 'https://tile.opentopomap.org',
+                changeOrigin: true,
+                rewrite: (path) => path.replace('/tiles/topo', '') + '.png',
+                headers: {
+                    'User-Agent': 'DistanceCalculator/1.0'
+                }
             }
         }
     }
