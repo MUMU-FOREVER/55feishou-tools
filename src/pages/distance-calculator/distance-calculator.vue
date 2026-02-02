@@ -201,7 +201,7 @@ export default {
 				}),
 				satellite: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
 					attribution: '© Esri',
-					maxZoom: 19
+					maxZoom: 18
 				}),
 				terrain: L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
 					attribution: '© OpenTopoMap contributors',
@@ -375,6 +375,14 @@ export default {
 		
 		// 切换测量模式
 		toggleMeasureMode() {
+			// 如果已有测量数据，先清除再进入测量模式
+			if (this.startMarker || this.endMarker) {
+				this.clearMeasurementSilent();
+				this.isMeasuring = true;
+				this.showToast('已清除上次测量，点击地图选择起点');
+				return;
+			}
+			
 			this.isMeasuring = !this.isMeasuring;
 			
 			if (this.isMeasuring) {
@@ -386,7 +394,13 @@ export default {
 		
 		// 处理地图点击
 		handleMapClick(e) {
-			if (!this.isMeasuring) return;
+			// 如果不在测量模式，点击空白区域关闭结果面板
+			if (!this.isMeasuring) {
+				if (this.showResults) {
+					this.showResults = false;
+				}
+				return;
+			}
 			
 			const { lat, lng } = e.latlng;
 			
@@ -518,6 +532,12 @@ export default {
 		
 		// 清除测量
 		clearMeasurement() {
+			this.clearMeasurementSilent();
+			this.showToast('已清除测量');
+		},
+		
+		// 静默清除测量（不显示提示）
+		clearMeasurementSilent() {
 			if (this.startMarker) {
 				this.map.removeLayer(this.startMarker);
 				this.startMarker = null;
@@ -542,7 +562,6 @@ export default {
 			
 			this.showResults = false;
 			this.isMeasuring = false;
-			this.showToast('已清除测量');
 		},
 		
 		// 格式化距离
