@@ -32,15 +32,7 @@ export default defineConfig({
                     return `/api/v1/lookup?locations=${lat},${lng}`;
                 }
             },
-            // 开发环境代理 - OpenStreetMap 瓦片
-            '/tiles/osm': {
-                target: 'https://tile.openstreetmap.org',
-                changeOrigin: true,
-                rewrite: (path) => path.replace('/tiles/osm', '') + '.png',
-                headers: {
-                    'User-Agent': 'DistanceCalculator/1.0'
-                }
-            },
+
             // 开发环境代理 - Esri 卫星图瓦片
             '/tiles/esri': {
                 target: 'https://server.arcgisonline.com',

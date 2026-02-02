@@ -194,11 +194,12 @@ export default {
 				zoomControl: false
 			});
 			
-			// 定义图层 - 通过代理访问
+			// 定义图层
 			this.layers = {
-				normal: L.tileLayer('/tiles/osm/{z}/{x}/{y}', {
-					attribution: '© OpenStreetMap contributors',
-					maxZoom: 19
+				normal: L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}&key=de2187b7ea78c2bed8002aaf5e100229', {
+					attribution: '© 高德地图',
+					maxZoom: 18,
+					subdomains: ['1', '2', '3', '4']
 				}),
 				satellite: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
 					attribution: '© Esri',
